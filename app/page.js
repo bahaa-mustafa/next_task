@@ -2,12 +2,28 @@
 import SearchInput from "../components/searchInput";
 import FilterTypes from "../components/filtterTypes";
 import { mockAssets, mockAssetsType } from "../data/mockData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AssetsTable from "@/components/assetsTable";
 
 export default function Home() {
   const assetsType = mockAssetsType;
   const [selectedAssetType, setSelectedAssetType] = useState("All");
+  const [assets, setAssets] = useState(mockAssets); 
+
+ useEffect(() => {
+    const interval = setInterval(() => {
+      setAssets((prev) =>
+        prev.map((a) => ({
+          ...a,
+          price: +(a.price + (Math.random() - 0.5)).toFixed(2),
+          change: +(Math.random() * 4 - 2).toFixed(2),
+        }))
+      );
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+  
   return (
     <>
     <header className="flex items-center justify-center mb-5">
@@ -22,7 +38,7 @@ export default function Home() {
     </section>
 
     <section>     
-      <AssetsTable mockAssets={mockAssets} />
+      <AssetsTable mockAssets={assets} />
     </section>
     </main>
     </>
