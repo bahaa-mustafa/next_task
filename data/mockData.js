@@ -8,6 +8,6 @@ export const mockAssets = [
 
 export const mockAssetsType = [
   { id: 1, name: "All" },
-  { id: 2, name: "Stock" },
-  { id: 3, name: "Crypto" },
+  { id: 2, name: "stock" },
+  { id: 3, name: "crypto" },
 ];

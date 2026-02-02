@@ -5,6 +5,7 @@ import { mockAssets, mockAssetsType } from "../data/mockData";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import AssetsTable from "@/components/assetsTable";
 import useDebounce from "@/hooks/useDebounce";
+import AssetCard from "@/components/assetscard";
 
 export default function Home() {
   const assetsType = mockAssetsType;
@@ -37,10 +38,8 @@ const filteredAssets = useMemo(() => {
   });
 }, [assets, debouncedSearch, selectedAssetType]);
 
-  const handleFilterChange = useCallback((e) => {
-    // console.log(e.target.value);
-    console.log(e);
-    setSelectedAssetType(e);
+  const handleFilterChange = useCallback((value) => {
+    setSelectedAssetType(value);
   }, []);  
   
   return (
@@ -53,11 +52,14 @@ const filteredAssets = useMemo(() => {
     <section className="flex items-center justify-center gap-4">
     <SearchInput value={search} onChange={setSearch} />
     <FilterTypes types={assetsType} selected={selectedAssetType} onChange={handleFilterChange} />
-    {/* <FilterTypes assetsType={assetsType} selectedAssetType={selectedAssetType} setSelectedAssetType={setSelectedAssetType} /> */}
-    </section>
+     </section>
 
     <section>     
       <AssetsTable mockAssets={filteredAssets} />
+
+       {filteredAssets.map((a) => (
+          <AssetCard key={a.id} asset={a} />
+        ))}
     </section>
     </main>
     </>

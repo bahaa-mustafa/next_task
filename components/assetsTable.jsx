@@ -1,10 +1,18 @@
 import React from "react";
 
 const AssetsTable = React.memo(function AssetsTable({mockAssets}) {
-  // console.log("AssetsTable rendered");
+  
+ if (mockAssets.length === 0) {
+    return (
+      <p className="text-gray-500 text-center">
+        No assets found
+      </p>
+    );
+  }
+
   return (
-    <section>
-      <table className="w-full">
+
+      <table className="w-full hidden sm:table">
         <thead>
           <tr className="bg-gray-100">
             <th className="border border-gray-300 px-4 py-2">Name</th>
@@ -26,7 +34,6 @@ const AssetsTable = React.memo(function AssetsTable({mockAssets}) {
           ))}
         </tbody>
       </table>
-    </section>
   )
 })
 
