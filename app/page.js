@@ -2,13 +2,17 @@
 import SearchInput from "../components/searchInput";
 import FilterTypes from "../components/filtterTypes";
 import { mockAssets, mockAssetsType } from "../data/mockData";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AssetsTable from "@/components/assetsTable";
+import useDebounce from "@/hooks/useDebounce";
 
 export default function Home() {
   const assetsType = mockAssetsType;
   const [selectedAssetType, setSelectedAssetType] = useState("All");
   const [assets, setAssets] = useState(mockAssets); 
+  const [search, setSearch] = useState("");
+
+  const debouncedSearch = useDebounce(search, 500);
 
  useEffect(() => {
     const interval = setInterval(() => {
@@ -23,6 +27,12 @@ export default function Home() {
 
     return () => clearInterval(interval);
   }, []);
+
+  const handleFilterChange = useCallback((e) => {
+    // console.log(e.target.value);
+    console.log(e);
+    setSelectedAssetType(e);
+  }, []);  
   
   return (
     <>
@@ -32,9 +42,9 @@ export default function Home() {
 
     <main className="flex flex-col items-center justify-start h-screen gap-4">
     <section className="flex items-center justify-center gap-4">
-    <SearchInput />
-    <input type="text" placeholder="Search name...." className="border border-gray-300 rounded-md px-4 py-2" value={selectedAssetType} onChange={(e) => setSelectedAssetType(e.target.value)}/>
-    <FilterTypes assetsType={assetsType} selectedAssetType={selectedAssetType} setSelectedAssetType={setSelectedAssetType} />
+    <SearchInput value={search} onChange={setSearch} />
+    <FilterTypes types={assetsType} selected={selectedAssetType} onChange={handleFilterChange} />
+    {/* <FilterTypes assetsType={assetsType} selectedAssetType={selectedAssetType} setSelectedAssetType={setSelectedAssetType} /> */}
     </section>
 
     <section>     
