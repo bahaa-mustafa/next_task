@@ -2,7 +2,7 @@
 import SearchInput from "../components/searchInput";
 import FilterTypes from "../components/filtterTypes";
 import { mockAssets, mockAssetsType } from "../data/mockData";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import AssetsTable from "@/components/assetsTable";
 import useDebounce from "@/hooks/useDebounce";
 
@@ -12,7 +12,7 @@ export default function Home() {
   const [assets, setAssets] = useState(mockAssets); 
   const [search, setSearch] = useState("");
 
-  const debouncedSearch = useDebounce(search, 500);
+  const debouncedSearch = useDebounce(search);
 
  useEffect(() => {
     const interval = setInterval(() => {
@@ -27,6 +27,15 @@ export default function Home() {
 
     return () => clearInterval(interval);
   }, []);
+
+const filteredAssets = useMemo(() => {
+  // console.log("filteredAssets rendered");
+  return assets.filter((asset) => {
+    const matchesSearch = asset.name.toLowerCase().includes(debouncedSearch.toLowerCase());
+    const matchesType = selectedAssetType === "All" || asset.type === selectedAssetType;
+    return matchesSearch && matchesType;
+  });
+}, [assets, debouncedSearch, selectedAssetType]);
 
   const handleFilterChange = useCallback((e) => {
     // console.log(e.target.value);
@@ -48,7 +57,7 @@ export default function Home() {
     </section>
 
     <section>     
-      <AssetsTable mockAssets={assets} />
+      <AssetsTable mockAssets={filteredAssets} />
     </section>
     </main>
     </>

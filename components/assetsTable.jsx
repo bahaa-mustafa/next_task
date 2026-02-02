@@ -1,6 +1,7 @@
+import React from "react";
 
-
-function AssetsTable({mockAssets}) {
+const AssetsTable = React.memo(function AssetsTable({mockAssets}) {
+  // console.log("AssetsTable rendered");
   return (
     <section>
       <table className="w-full">
@@ -27,6 +28,6 @@ function AssetsTable({mockAssets}) {
       </table>
     </section>
   )
-}
+})
 
 export default AssetsTable
