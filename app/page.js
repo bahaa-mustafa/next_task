@@ -74,7 +74,7 @@ export default function Home() {
       </header>
 
       <main className="flex flex-col items-center justify-start h-screen gap-4">
-        <section className="flex items-center justify-center gap-4">
+        <section className="flex items-center justify-center gap-4 flex-wrap">
           <SearchInput value={search} onChange={setSearch} />
           <FilterTypes
             types={assetsType}
@@ -86,10 +86,7 @@ export default function Home() {
             sortOrder={sortOrder}
             onSortChange={setSortBy}
           />
-          <OrderTable
-            sortOrder={sortOrder}
-            setSortOrder={setSortOrder}
-          />
+          <OrderTable sortOrder={sortOrder} setSortOrder={setSortOrder} />
         </section>
 
         <section>
